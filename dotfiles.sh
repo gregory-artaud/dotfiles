@@ -3,6 +3,7 @@
 source ./utils/select_option.sh
 
 softwares_paths=($(ls -d $(pwd)"/softwares/"*))
+PUSH_SCRIPT_PATH=/scripts/push_config.sh
 
 softwares_names=()
 gather_softwares_names ()
@@ -41,12 +42,14 @@ install_software ()
 
 pull_config ()
 {
+    # TODO
     echo "Pulling config of" $1
 }
 
 push_config ()
 {
-    echo "Pushing config of" $1
+    echo "Pushing config of" ${softwares_names[$1]}
+    bash ${softwares_paths[$1]}$PUSH_SCRIPT_PATH
 }
 
 execute_commands ()
@@ -60,7 +63,7 @@ execute_commands ()
         fi
         if (( $cmd == $CONFIG || $cmd == $INSTALL_AND_CONFIG ))
         then
-            push_config "${softwares_names[$i]}"
+            push_config $i
         fi
     done
 }
