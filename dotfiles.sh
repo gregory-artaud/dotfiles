@@ -5,6 +5,7 @@ source ./utils/select_option.sh
 softwares_paths=($(ls -d $(pwd)"/softwares/"*))
 PUSH_SCRIPT_PATH=/scripts/push_config.sh
 INSTALL_SCRIPT_PATH=/scripts/install_software.sh
+PULL_SCRIPT_PATH=/scripts/pull_config.sh
 
 softwares_names=()
 gather_softwares_names ()
@@ -44,8 +45,8 @@ install_software ()
 
 pull_config ()
 {
-    # TODO
-    echo "Pulling config of" $1
+    echo "Pulling config of" ${softwares_names[$1]}
+    bash ${softwares_paths[$1]}$PULL_SCRIPT_PATH
 }
 
 push_config ()
