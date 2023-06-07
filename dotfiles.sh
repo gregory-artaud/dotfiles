@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source ./utils/select_option.sh
+
 softwares_paths=($(ls -d $(pwd)"/softwares/"*))
 
 softwares_names=()
@@ -15,29 +17,36 @@ IGNORE=0
 INSTALL=1
 CONFIG=2
 INSTALL_AND_CONFIG=3
+options=(
+    "Ignore"
+    "Install"
+    "Configure"
+    "Install and configure"
+)
 softwares_cmd=()
 ask_install_or_config ()
 {
     for software in "${softwares_names[@]}"
     do
-        echo "Here a menu to select install / config / ignore" $software
-        softwares_cmd+=(0)
+        echo "What do you want to do with:" $software "?"
+        select_option "${options[@]}"
+        softwares_cmd+=($?)
     done
 }
     
 install_software ()
 {
-    echo "installing" $1
+    echo "Installing" $1
 }
 
 pull_config ()
 {
-    echo "pulling config of" $1
+    echo "Pulling config of" $1
 }
 
 push_config ()
 {
-    echo "pushing config of" $1
+    echo "Pushing config of" $1
 }
 
 execute_commands ()
