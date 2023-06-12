@@ -2,12 +2,10 @@
 
 source ./utils/select_option.sh
 
-softwares_paths=($(ls -d $(pwd)"/softwares/"*))
 PUSH_SCRIPT_PATH=/scripts/push_config.sh
 INSTALL_SCRIPT_PATH=/scripts/install_software.sh
 PULL_SCRIPT_PATH=/scripts/pull_config.sh
 
-softwares_names=()
 gather_softwares_names ()
 {
     for path in "${softwares_paths[@]}"
@@ -16,19 +14,20 @@ gather_softwares_names ()
     done
 }
 
-IGNORE=0
-INSTALL=1
-CONFIG=2
-INSTALL_AND_CONFIG=3
-options=(
-    "Ignore"
-    "Install"
-    "Configure"
-    "Install and configure"
-)
-softwares_cmd=()
 ask_install_or_config ()
 {
+    IGNORE=0
+    INSTALL=1
+    CONFIG=2
+    INSTALL_AND_CONFIG=3
+    PULL=4
+    options=(
+        "Ignore"
+        "Install"
+        "Configure"
+        "Install and configure"
+        "Pull configuration"
+    )
     for software in "${softwares_names[@]}"
     do
         echo "What do you want to do with:" $software "?"
@@ -36,7 +35,7 @@ ask_install_or_config ()
         softwares_cmd+=($?)
     done
 }
-    
+
 install_software ()
 {
     echo "Installing" ${softwares_names[$1]}
@@ -68,9 +67,18 @@ execute_commands ()
         then
             push_config $i
         fi
+        if (( $cmd == $PULL ))
+        then
+            pull_config $i
+        fi
     done
 }
 
+softwares_paths=($(ls -d $(pwd)"/softwares/"*))
+softwares_names=()
 gather_softwares_names
+
+softwares_cmd=()
+
 ask_install_or_config
 execute_commands
