@@ -34,3 +34,24 @@ vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
+vim.keymap.set("n", "<C-s>", ":w<Enter>")
+vim.keymap.set("i", "<C-s>", "<Esc>:w<Enter>")
+vim.keymap.set("v", "<C-s>", "<Esc>:w<Enter>")
+
+vim.keymap.set("n", "<UP>", "<NOP>")
+vim.keymap.set("n", "<DOWN>", "<NOP>")
+vim.keymap.set("n", "<LEFT>", "<NOP>")
+vim.keymap.set("n", "<RIGHT>", "<NOP>")
+
+vim.keymap.set("i", "<UP>", "<NOP>")
+vim.keymap.set("i", "<DOWN>", "<NOP>")
+vim.keymap.set("i", "<LEFT", "<NOP>")
+vim.keymap.set("i", "<RIGHT>", "<NOP>")
+
+vim.keymap.set("v", "<UP>", "<NOP>")
+vim.keymap.set("v", "<DOWN>", "<NOP>")
+vim.keymap.set("v", "<LEFT>", "<NOP>")
+vim.keymap.set("v", "<RIGHT>", "<NOP>")
+
+vim.keymap.set("n", ";", ":")
+
