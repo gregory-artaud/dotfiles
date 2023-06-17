@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# SUDO GUARD
-if (( $EUID != 0 )); then
-    echo "Please run as root or use sudo"
-    exit
-fi
-
 source ./utils/select_option.sh
 
 softwares_paths=($(ls -d $(pwd)"/softwares/"*))
