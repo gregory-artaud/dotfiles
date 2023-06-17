@@ -2,4 +2,4 @@
 
 sudo apt update -y && sudo apt upgrade -y
 
-sudo apt install tmux
+sudo apt install -y tmux

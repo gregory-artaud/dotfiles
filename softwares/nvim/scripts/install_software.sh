@@ -3,7 +3,7 @@
 sudo apt update -y && sudo apt upgrade -y
 
 # Prerequisites
-sudo apt install ninja-build gettext cmake unzip curl
+sudo apt install -y ninja-build gettext cmake unzip curl
 
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
 chmod u+x nvim.appimage

@@ -23,4 +23,4 @@ echo "Unattended-Upgrade::Allowed-Origins:: \"LP-PPA-mozillateam:${VERSION_CODEN
 
 sudo apt update -y && sudo apt upgrade -y
 
-sudo apt install firefox
+sudo apt install -y firefox

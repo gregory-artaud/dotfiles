@@ -3,7 +3,7 @@
 sudo apt update -y && sudo apt upgrade -y
 
 # Prerequisities
-sudo apt install ca-certificates curl gnupg
+sudo apt install -y ca-certificates curl gnupg
 
 # Add GPG Key
 sudo install -m 0755 -d /etc/apt/keyrings
@@ -18,4 +18,4 @@ echo \
 
 sudo apt update -y && sudo apt upgrade -y
 
-sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin

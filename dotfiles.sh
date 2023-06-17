@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# SUDO GUARD
+if (( $EUID != 0 )); then
+    echo "Please run as root or use sudo"
+    exit
+fi
+
 source ./utils/select_option.sh
 
 softwares_paths=($(ls -d $(pwd)"/softwares/"*))
@@ -61,6 +67,7 @@ execute_commands ()
     do
         cmd=${softwares_cmd[$i]}
         if (( $cmd == $INSTALL || $cmd == $INSTALL_AND_CONFIG ))
+
         then
             install_software $i
         fi
@@ -74,3 +81,8 @@ execute_commands ()
 gather_softwares_names
 ask_install_or_config
 execute_commands
+
+grep zsh /etc/shells
+if [[ $? -eq 0 ]] then
+    exec zsh
+fi
