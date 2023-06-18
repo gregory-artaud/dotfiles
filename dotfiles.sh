@@ -76,7 +76,4 @@ gather_softwares_names
 ask_install_or_config
 execute_commands
 
-grep zsh /etc/shells > /dev/null
-if [[ $? -eq 0 ]] then
-    exec zsh > /dev/null
-fi
+echo "All done, you may retart your system now"
