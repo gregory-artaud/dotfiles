@@ -3,7 +3,6 @@
     email = gregory.rtd@gmail.com
 
 [core]
-    excludefile = ~/dotfiles/git/gitignore
     autocrlf = input
 
 [color]
