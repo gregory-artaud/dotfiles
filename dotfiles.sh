@@ -76,4 +76,4 @@ gather_softwares_names
 ask_install_or_config
 execute_commands
 
-echo "All done, you may retart your system now"
+echo "All done, you may restart your system now"
