@@ -34,9 +34,9 @@ vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
-vim.keymap.set("n", "<C-s>", ":w<Enter>")
-vim.keymap.set("i", "<C-s>", "<Esc>:w<Enter>")
-vim.keymap.set("v", "<C-s>", "<Esc>:w<Enter>")
+vim.keymap.set("n", "<C-s>", ":w<CR>", { noremap = true, silent = true })
+vim.keymap.set("i", "<C-s>", "<Esc>:w<CR>li", { noremap = true, silent = true })
+vim.keymap.set("v", "<C-s>", "<Esc>:w<CR>gv", { noremap = true, silent = true })
 
 vim.keymap.set("n", "<UP>", "<NOP>")
 vim.keymap.set("n", "<DOWN>", "<NOP>")
@@ -55,3 +55,5 @@ vim.keymap.set("v", "<RIGHT>", "<NOP>")
 
 vim.keymap.set("n", ";", ":")
 
+-- Open last closed buffer
+vim.keymap.set("n", "<leader><BS>", ":b#<CR>")

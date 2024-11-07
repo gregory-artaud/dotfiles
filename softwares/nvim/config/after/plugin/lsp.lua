@@ -2,10 +2,10 @@ local lsp = require('lsp-zero')
 
 lsp.preset('recommended')
 
-
 lsp.ensure_installed({
-	'tsserver',
+	'ts_ls',
 	'eslint',
+    'denols',
 })
 
 local cmp = require('cmp')
@@ -39,5 +39,14 @@ lsp.on_attach(function(client, bufnr)
     vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
 	vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 end)
+
+lsp.configure('denols', {
+    root_dir = require('lspconfig').util.root_pattern("deno.json", "deno.jsonc"),
+})
+
+lsp.configure('ts_ls', {
+    root_dir = require('lspconfig').util.root_pattern("package.json"),
+    single_file_support = false,
+})
 
 lsp.setup()
