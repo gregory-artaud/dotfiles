@@ -1,7 +1,6 @@
-# live_config_reload = true
 
 [colors]
-draw_bold_text_with_bright_colors = false
+draw_bold_text_with_bright_colors = true
 
 [colors.bright]
 black = "0x444b6a"
@@ -64,6 +63,9 @@ semantic_escape_chars = ",│`|:\"' ()[]{}<>"
 [terminal.shell]
 # args = ["-l", "-c", "tmux"]
 program = "/usr/bin/zsh"
+
+[general]
+live_config_reload = true
 
 [window]
 decorations = "full"
