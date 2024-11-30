@@ -9,6 +9,7 @@ plugins=(
 	git
 )
 
+alias logout="loginctl kill-user $(whoami)"
 alias vim="nvim"
 alias vi="nvim"
 alias gdh="git diff HEAD"
