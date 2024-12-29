@@ -1,0 +1,59 @@
+[user]
+    name = Gregory ARTAUD
+    email = gregory.rtd@gmail.com
+
+[core]
+    autocrlf = input
+
+[color]
+    ui = true
+
+[color "highlight"]
+    oldNormal = red bold
+    oldHighlight = red bold 52
+    newNormal = green bold
+    newHighlight = green bold 22
+
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+
+[color "diff"]
+    meta = 11
+    frag = magenta bold
+    old = red
+    new = green
+
+[alias]
+
+    # show list of contributors in descending order by number of commits
+    rank = shortlog -sn --no-merges
+
+    # given any git object, try to show it briefly
+    whatis = show -s --pretty='tformat:%h (%s, %ad)' --date=short
+
+    # Add modified files to previous commit
+    oups = !"git add -A -v && git commit --amend -C HEAD"
+
+[github]
+    user = gregory-artaud
+
+[rerere]
+    enabled = true
+
+[rebase]
+    autoStash = true
+
+[pull]
+    rebase = false
+
+[push]
+    autoSetupRemote = true
+
+[merge]
+    summary = true
+    verbosity = 1
+    tool = meld
+[init]
+	defaultBranch = main
