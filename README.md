@@ -2,9 +2,7 @@
 
 This repository is managed by [chezmoi](https://www.chezmoi.io/)
 
-Before running `chezmoi apply` after cloning this repository, make sure you filled your `~/.config/chezmoi/chezmoi.toml` with at least these values :
-
-```toml
-[data]
-  bwsAccessToken = "your-bws-access-token"
+To initialize a new machine, run
+```
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply gregory-artaud
 ```
