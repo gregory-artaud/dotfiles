@@ -1,0 +1,14 @@
+{{- $bwsAccessToken := promptStringOnce . "bwsAccessToken" "BitWarden Secret access token" -}}
+
+encryption = "age"
+
+[git]
+autoCommit = true
+autoPush = true
+
+[data]
+bwsAccessToken = {{ $bwsAccessToken | quote }}
+
+[age]
+identity = "~/.config/chezmoi/key.txt"
+recipient = "age1083m23669f4kurnuezq9h4365st8gvqmruunfyhkl55dcpw5ks4sw4dhc0" # Public key
