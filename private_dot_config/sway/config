@@ -6,7 +6,7 @@ set $right l
 set $term alacritty
 set $menu $HOME/.scripts/launcher.sh
 set $explorer $term -e yazi
-set $browser zen-browser
+set $browser zen
 
 gaps inner 6
 gaps outer 3
