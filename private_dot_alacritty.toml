@@ -62,7 +62,7 @@ semantic_escape_chars = ",│`|:\"' ()[]{}<>"
 
 [terminal.shell]
 # args = ["-l", "-c", "tmux"]
-program = "/usr/bin/zsh"
+program = "/etc/profiles/per-user/gartaud/bin/zsh"
 
 [general]
 live_config_reload = true
