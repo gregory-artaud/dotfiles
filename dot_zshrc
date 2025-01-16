@@ -6,6 +6,10 @@ ZSH_THEME="robbyrussell"
 
 plugins=(
 	git
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+    you-should-use
+    zsh-bat
 )
 
 alias logout="loginctl kill-user $(whoami)"
