@@ -2,3 +2,8 @@ Host github.com
 	HostName github.com
 	User git
 	IdentityFile ~/.ssh/id_github
+
+Host home_zero
+    HostName 192.168.1.151
+    User gartaud
+    IdentityFile ~/.ssh/id_home_zero
