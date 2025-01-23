@@ -1,3 +1,5 @@
+export CHEZMOI="$HOME/.local/share/chezmoi"
+export WG_HOME="$HOME/.config/wg/wgHome.conf"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
@@ -16,6 +18,10 @@ alias zshconfig="nvim ~/.zshrc"
 alias nvimconfig="nvim ~/.config/nvim/"
 alias gcob="git checkout -b"
 alias gpo="git push origin"
+alias wgu="sudo wg-quick up"
+alias wgd="sudo wg-quick down"
+alias wguh="sudo wg-quick up $WG_HOME"
+alias wgdh="sudo wg-quick down $WG_HOME"
 
 # enable control-s and control-q
 stty start undef
