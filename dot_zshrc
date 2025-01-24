@@ -1,3 +1,5 @@
+export VISUAL=vim
+export EDITOR=vim
 export CHEZMOI="$HOME/.local/share/chezmoi"
 export WG_HOME="$HOME/.config/wg/wgHome.conf"
 export NVM_DIR="$HOME/.nvm"
