@@ -1,11 +1,12 @@
 local lsp = require('lsp-zero')
+local null_ls = require('null-ls')
+local lspconfig = require('lspconfig')
 
 lsp.preset('recommended')
 
 lsp.ensure_installed({
 	'ts_ls',
 	'eslint',
-    'denols',
 })
 
 local cmp = require('cmp')
@@ -34,19 +35,44 @@ lsp.on_attach(function(client, bufnr)
 	vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
 	vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
 	vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
-    vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
-    vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
-    vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
+	vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
+	vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
+	vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
 	vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 end)
 
-lsp.configure('denols', {
-    root_dir = require('lspconfig').util.root_pattern("deno.json", "deno.jsonc"),
+lsp.configure('ts_ls', {
+    root_dir = lspconfig.util.root_pattern("package.json"),
+    single_file_support = false,
+    on_attach = function(client)
+        client.server_capabilities.documentFormattingProvider = false
+    end,
 })
 
-lsp.configure('ts_ls', {
-    root_dir = require('lspconfig').util.root_pattern("package.json"),
-    single_file_support = false,
+lsp.configure('eslint', {
+    on_attach = function(client)
+        client.server_capabilities.documentFormattingProvider = false
+    end,
+})
+
+lsp.configure('dprint', {
+    on_attach = function(client)
+        client.server_capabilities.documentFormattingProvider = false
+    end,
 })
 
 lsp.setup()
+
+null_ls.setup({
+  sources = {
+    null_ls.builtins.formatting.prettier.with({
+      command = "npx",
+      args = { "prettier", "--stdin-filepath", "$FILENAME" },
+    }),
+  },
+})
+
+vim.keymap.set("n", "<leader>f", function()
+  vim.lsp.buf.format({ async = true })
+end, { desc = "Format Code" })
+
