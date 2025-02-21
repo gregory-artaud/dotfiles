@@ -22,14 +22,6 @@ return require('packer').startup(function(use)
         requires = { { 'nvim-lua/plenary.nvim' } }
     }
 
-    use {
-        "windwp/nvim-autopairs",
-        event = "InsertEnter",
-        config = function()
-            require("nvim-autopairs").setup {}
-        end
-    }
-
     use 'folke/tokyonight.nvim'
 
     use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
@@ -40,12 +32,19 @@ return require('packer').startup(function(use)
 
     use('tpope/vim-fugitive')
 
-    use({
-        "stevearc/conform.nvim",
+    use ('f-person/git-blame.nvim')
+
+    use {
+        "nvimtools/none-ls.nvim",
+        requires = { "nvim-lua/plenary.nvim" }
+    }
+
+    use {
+        "windwp/nvim-autopairs",
         config = function()
-            require("conform").setup()
-        end,
-    })
+            require("nvim-autopairs").setup {}
+        end
+    }
 
     use {
         'VonHeikemen/lsp-zero.nvim',
