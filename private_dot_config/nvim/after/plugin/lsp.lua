@@ -17,6 +17,7 @@ local cmp_mappings = lsp.defaults.cmp_mappings({
 	['<C-y>'] = cmp.mapping.confirm({ select = true }),
 	['<C-Space>'] = cmp.mapping.complete(),
 })
+cmp_mappings['<Tab>'] = nil
 
 lsp.set_preferences({
 	sign_icons = { }
@@ -72,7 +73,9 @@ null_ls.setup({
   },
 })
 
-vim.keymap.set("n", "<leader>f", function()
-  vim.lsp.buf.format({ async = true })
-end, { desc = "Format Code" })
-
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = function()
+    vim.lsp.buf.format({ async = false })
+  end,
+})
