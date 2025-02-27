@@ -24,15 +24,35 @@ return require('packer').startup(function(use)
 
     use 'folke/tokyonight.nvim'
 
-    use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
-
     use('theprimeagen/harpoon')
-
-    use('mbbill/undotree')
 
     use('tpope/vim-fugitive')
 
-    use ('f-person/git-blame.nvim')
+    use('f-person/git-blame.nvim')
+
+    use {
+        'nvim-treesitter/nvim-treesitter',
+        run = ':TSUpdate'
+    }
+
+    use {
+        "supermaven-inc/supermaven-nvim",
+        config = function()
+            require("supermaven-nvim").setup({
+                keymaps = {
+                    accept_word = "<C-l>",
+                },
+            })
+        end,
+    }
+
+    use {
+        'windwp/nvim-ts-autotag',
+        requires = { 'nvim-treesitter/nvim-treesitter' },
+        config = function()
+            require('nvim-ts-autotag').setup()
+        end
+    }
 
     use {
         "nvimtools/none-ls.nvim",
@@ -65,9 +85,11 @@ return require('packer').startup(function(use)
             { 'hrsh7th/cmp-nvim-lsp' },     -- Required
             { 'hrsh7th/cmp-buffer' },       -- Optional
             { 'hrsh7th/cmp-path' },         -- Optional
+            { 'saadparwaiz1/cmp_luasnip' }, -- Optional
             { 'hrsh7th/cmp-nvim-lua' },     -- Optional
 
             -- Snippets
+            { 'L3MON4D3/LuaSnip' },             -- Required
             { 'rafamadriz/friendly-snippets' }, -- Optional
         }
     }
