@@ -41,8 +41,8 @@ exec ~/.autostart.sh
 focus_follows_mouse no
 
 input type:keyboard {
-  xkb_layout "us,ara"
-  xkb_options "grp:lalt_lshift_toggle, numlock:on, caps:swapescape"
+  xkb_layout "us"
+  xkb_options "numlock:on, caps:swapescape, compose:rctrl"
 }
 
 input type:touchpad {
