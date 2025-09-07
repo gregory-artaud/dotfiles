@@ -6,6 +6,14 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+source /usr/share/cachyos-zsh-config/cachyos-config.zsh
+
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
 ZSH_THEME="robbyrussell"
 
 plugins=(
@@ -24,17 +32,9 @@ alias wgu="sudo wg-quick up"
 alias wgd="sudo wg-quick down"
 alias wguh="sudo wg-quick up $WG_HOME"
 alias wgdh="sudo wg-quick down $WG_HOME"
-
-# enable control-s and control-q
-stty start undef
-stty stop undef
-setopt noflowcontrol
+alias xclip="xclip -selection clipboard"
 
 source $ZSH/oh-my-zsh.sh
-
-if service docker status 2>&1 | grep -q "is not running"; then
-    wsl.exe -d "${WSL_DISTRO_NAME}" -u root -e /usr/sbin/service docker start >/dev/null 2>&1
-fi
 
 # pnpm
 export PNPM_HOME="/home/gregory/.local/share/pnpm"
