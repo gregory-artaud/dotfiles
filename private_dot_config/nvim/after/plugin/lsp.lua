@@ -4,11 +4,6 @@ local lspconfig = require('lspconfig')
 
 lsp.preset('recommended')
 
-lsp.ensure_installed({
-	'ts_ls',
-	'eslint',
-})
-
 local cmp = require('cmp')
 local cmp_select = {behavior = cmp.SelectBehavior.Select}
 local cmp_mappings = lsp.defaults.cmp_mappings({
