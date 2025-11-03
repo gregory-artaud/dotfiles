@@ -1,0 +1,141 @@
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-s": "workspace::Save"
+    }
+  },
+  {
+    "context": "VimControl && !menu",
+    "bindings": {
+      "up": null,
+      "down": null,
+      "left": null,
+      "right": null
+    }
+  },
+  {
+    "context": "vim_mode == normal && !menu",
+    "bindings": {
+      "space p v": "project_panel::ToggleFocus",
+      "alt-j": "editor::MoveLineDown",
+      "alt-k": "editor::MoveLineUp",
+      "shift-q": null,
+      "semicolon": "command_palette::Toggle",
+      "space backspace": "vim::GoToPreviousTab",
+      "[ d": [
+        "editor::GoToDiagnostic",
+        { "severity": { "min": "hint", "max": "error" } }
+      ],
+      "] d": [
+        "editor::GoToPreviousDiagnostic",
+        { "severity": { "min": "hint", "max": "error" } }
+      ],
+      "g d": "editor::GoToDefinition",
+      "shift-k": "editor::Hover",
+      "space v w s": "project_symbols::Toggle",
+      "space v d": "editor::ToggleInlineDiagnostics",
+      "space v c a": "editor::ToggleCodeActions",
+      "space v r r": "editor::FindAllReferences",
+      "space v r n": "editor::Rename",
+      "ctrl-/": ["editor::ToggleComments", { "advance_downwards": false }],
+      "ctrl-j": [
+        "editor::GoToDiagnostic",
+        { "severity": { "min": "hint", "max": "error" } }
+      ],
+      "ctrl-k": [
+        "editor::GoToPreviousDiagnostic",
+        { "severity": { "min": "hint", "max": "error" } }
+      ]
+    }
+  },
+  {
+    "context": "vim_mode == visual && !menu",
+    "bindings": {
+      "alt-j": "editor::MoveLineDown",
+      "alt-k": "editor::MoveLineUp",
+      "ctrl-/": ["editor::ToggleComments", { "advance_downwards": false }],
+      "space y": "editor::Copy"
+    }
+  },
+  {
+    "context": "vim_mode == insert",
+    "bindings": {
+      "alt-j": ["workspace::SendKeystrokes", "escape alt-j i"],
+      "alt-k": ["workspace::SendKeystrokes", "escape alt-k i"],
+      "ctrl-s": "workspace::Save",
+      "ctrl-c": "vim::SwitchToNormalMode",
+      "ctrl-h": "editor::ShowSignatureHelp",
+      "up": null,
+      "down": null,
+      "left": null,
+      "right": null
+    }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-shift-i": null
+    }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-i": "agent::ToggleFocus"
+    }
+  },
+  {
+    "context": "(Editor && mode == full)",
+    "bindings": {
+      "ctrl-i": "agent::ToggleFocus"
+    }
+  },
+  {
+    "context": "(Editor && mode == full)",
+    "bindings": {
+      "ctrl-shift-i": "agent::ToggleFocus"
+    }
+  },
+  {
+    "context": "(VimControl && !menu)",
+    "bindings": {
+      "space g d": "editor::GoToDefinition"
+    }
+  },
+  {
+    "context": "vim_mode == normal",
+    "bindings": {
+      "space ] d": "editor::GoToDiagnostic"
+    }
+  },
+  {
+    "context": "vim_mode == normal",
+    "bindings": {
+      "space [ d": "editor::GoToPreviousDiagnostic"
+    }
+  },
+  {
+    "context": "(VimControl && !menu)",
+    "bindings": {
+      "ctrl-b": null
+    }
+  },
+  {
+    "context": "vim_mode == literal",
+    "bindings": {
+      "ctrl-b": null
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "ctrl-b": "workspace::ToggleLeftDock"
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "ctrl-j": "workspace::ToggleBottomDock"
+    }
+  }
+]
