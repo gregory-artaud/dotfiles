@@ -1,9 +1,10 @@
 [user]
-    name = Gregory ARTAUD
-    email = gregory.rtd@gmail.com
+    name = Grégory
+    email = gregory@galadrim.fr
 
 [core]
     autocrlf = input
+	editor = nvim
 
 [color]
     ui = true
@@ -37,7 +38,7 @@
     oups = !"git add -A -v && git commit --amend -C HEAD"
 
 [github]
-    user = gregory-artaud
+    user = gregory-galadrim
 
 [rerere]
     enabled = true

@@ -30,9 +30,9 @@ case ${chosen} in
 		reboot
         ;;
     $lock)
-        hyprlock
+        i3lock
         ;;
     $logout)
-		swaymsg exit
+		i3-msg exit
         ;;
 esac

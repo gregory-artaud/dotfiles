@@ -1,14 +1,102 @@
 Host github.com
-	HostName github.com
-	User git
-	IdentityFile ~/.ssh/id_github
-
-Host home_zero
-    HostName 192.168.1.151
-    User gartaud
-    IdentityFile ~/.ssh/id_home_zero
-
+    User git
+    Hostname github.com
+    PreferredAuthentications publickey
+    IdentityFile /home/gartaud/.ssh/galadrim
+    # IdentityFile /home/gartaud/.ssh/perso
+Host sofradef_prod
+    User root
+    Hostname 178.62.253.11
+    PreferredAuthentications publickey
+    IdentityFile /home/gartaud/.ssh/sofradef_prod
+Host sofradef_staging
+    User root
+    Hostname 188.166.25.22
+    PreferredAuthentications publickey
+    IdentityFile /home/gartaud/.ssh/sofradef_staging
 Host home_lab
-    HostName 192.168.1.134
     User gartaud
-    IdentityFile ~/.ssh/id_home_lab
+    Hostname 192.168.1.134
+    PreferredAuthentications publickey
+    IdentityFile /home/gartaud/.ssh/home_lab
+Host mge_prod
+    User ubuntu
+    Hostname 51.44.189.220
+    PreferredAuthentications publickey
+    IdentityFile /home/gartaud/Projects/mission-grande-ecole/infrastructure/assets/ec2_backend_prod
+Host ttf_prod
+    User ubuntu
+    Hostname 35.181.123.77
+    PreferredAuthentications publickey
+    IdentityFile /home/gartaud/Projects/trouve-ton-formateur/main/infrastructure/assets/ec2_backend_prod
+Host ttf_staging
+    User ubuntu
+    Hostname 13.36.143.55
+    PreferredAuthentications publickey
+    IdentityFile /home/gartaud/Projects/trouve-ton-formateur/main/infrastructure/assets/ec2_backend_staging
+Host massilia_prod
+    User ubuntu
+    Hostname 15.236.74.170
+    PreferredAuthentications publickey
+    IdentityFile /home/gartaud/Projects/massilia-voyages/infrastructure/assets/ec2_backend_prod
+Host massilia_staging
+    User ubuntu
+    Hostname 15.224.49.56
+    PreferredAuthentications publickey
+    IdentityFile /home/gartaud/Projects/massilia-voyages/infrastructure/assets/ec2_backend_staging
+Host massilia_wp_prod
+    User ubuntu
+    Hostname 15.237.224.228
+    PreferredAuthentications publickey
+    IdentityFile /home/gartaud/Projects/massilia-voyages/infrastructure/assets/ec2_wordpress_prod
+Host upnail_staging
+    User ec2-user
+    Hostname 15.236.38.192
+    PreferredAuthentications publickey
+    IdentityFile /home/gartaud/.ssh/galadrim
+Host upnail_prod
+    User ec2-user
+    Hostname 13.38.103.246
+    PreferredAuthentications publickey
+    IdentityFile /home/gartaud/.ssh/galadrim
+Host home_raspberry
+    User galadrim
+    Hostname 10.213.50.169
+    PreferredAuthentications publickey
+    IdentityFile /home/gartaud/.ssh/home_raspberry
+
+# PXP configuration
+Host storepilote
+    HostName 15.236.166.230
+    User ubuntu
+    IdentityFile ~/.ssh/thomas.pem
+
+Host operations
+    HostName 13.39.59.39
+    User ubuntu
+    IdentityFile ~/.ssh/thomas.pem
+
+Host cron
+    HostName 15.237.22.151
+    User ubuntu
+    IdentityFile ~/.ssh/thomas.pem
+
+Host caisse-staging
+    HostName 35.180.224.186
+    User ubuntu
+    IdentityFile ~/.ssh/thomas.pem
+
+Host caisse-monorepo
+    HostName 13.38.209.9
+    User ubuntu
+    IdentityFile ~/.ssh/thomas.pem
+
+Host caisse-prod
+    HostName 15.237.48.189
+    User ubuntu
+    IdentityFile ~/.ssh/thomas.pem
+
+Host operations-monorepo
+    HostName 13.36.149.231
+    User ubuntu
+    IdentityFile ~/.ssh/thomas.pem

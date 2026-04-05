@@ -6,21 +6,21 @@ set $right l
 set $term alacritty
 set $menu $HOME/.scripts/launcher.sh
 set $explorer $term -e yazi
-set $browser zen
+set $browser google-chrome-stable --ozone-platform=wayland --enable-gpu
 
 gaps inner 6
 gaps outer 3
-corner_radius 5
+#corner_radius 5
 default_border pixel 2
 default_floating_border pixel 2
 font pango:JetBrainsMono NF 11
 titlebar_padding 16
 titlebar_border_thickness 0
-default_dim_inactive 0.2
+#default_dim_inactive 0.2
 focus_wrapping yes
 seat seat0 xcursor_theme catppuccin-mocha-dark-cursors 22
 
-output HDMI-A-1 mode 2560x1440 position 0,0
+output HDMI-A-1 mode 2560x1440@144.000Hz position 0,0
 output HEADLESS-1 resolution 2560x1440@144.000Hz
 
 exec autotiling
@@ -33,7 +33,7 @@ exec --no-startup-id /usr/lib/xfce-polkit/xfce-polkit
 
 
 # exec $HOME/.scripts/wall.sh
-output * background $HOME/.local/share/backgrounds/wallpaper_2.jpg fill
+output * background $HOME/Pictures/wallpapers/wallpaper.png fill
 
 exec swayosd-server
 exec ~/.autostart.sh
@@ -42,7 +42,7 @@ focus_follows_mouse no
 
 input type:keyboard {
   xkb_layout "us"
-  xkb_options "numlock:on, caps:swapescape, compose:rctrl"
+  xkb_options "numlock:on, compose:rctrl"
 }
 
 input type:touchpad {

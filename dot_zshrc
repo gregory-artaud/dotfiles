@@ -1,45 +1,97 @@
-export VISUAL=vim
-export EDITOR=vim
-export CHEZMOI="$HOME/.local/share/chezmoi"
-export WG_HOME="$HOME/.config/wg/wgHome.conf"
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
 source /usr/share/cachyos-zsh-config/cachyos-config.zsh
-
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+export PATH=”/home/gartaud/Documents/neovim/bin:$PATH”
+export PATH=$PATH:/usr/local/go/bin:/home/gartaud/go/bin:/home/gartaud/.cargo/bin
+export PYTHON_HOST_PROG='/usr/sbin/python'
+export PYTHON3_HOST_PROG='/usr/sbin/python3'
+#export ZSH="$HOME/.oh-my-zsh"
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 ZSH_THEME="robbyrussell"
 
 plugins=(
 	git
+    you-should-use
+    zsh-bat
 )
 
-alias logout="loginctl kill-user $(whoami)"
 alias vim="nvim"
 alias vi="nvim"
 alias gdh="git diff HEAD"
-alias zshconfig="nvim ~/.zshrc"
+alias dcu="docker compose up"
+alias dcud="docker compose up -d"
+alias zshconfig="vim ~/.zshrc"
 alias nvimconfig="nvim ~/.config/nvim/"
 alias gcob="git checkout -b"
-alias gpo="git push origin"
-alias wgu="sudo wg-quick up"
-alias wgd="sudo wg-quick down"
-alias wguh="sudo wg-quick up $WG_HOME"
-alias wgdh="sudo wg-quick down $WG_HOME"
-alias xclip="xclip -selection clipboard"
+alias grm="git rm --cached"
+alias gwd="git rev-parse --abbrev-ref HEAD"
+alias xclip='xclip -selection clipboard'
+alias code='zeditor'
+alias z="zeditor"
+alias pnr='pnpm run "$(jq -r ".scripts | keys[]" package.json | fzf)"'
+alias slugify='f(){ printf "%s\n" "$1" | tr "[:upper:]" "[:lower:]" | sed -E "s/[^a-z0-9]+/-/g; s/^-+|-+$//g"; }; f'
 
-source $ZSH/oh-my-zsh.sh
+gwtr() {
+  git worktree list \
+  | fzf -m \
+  | awk '{print $1}' \
+  | while read -r wt; do
+      git worktree remove --force "$wt" && echo "Deleted worktree: $wt"
+    done
+}
+
+
+alias marc='echo li'
+alias kevin='echo je suis trevis le nouveau locataire'
+alias gp-explorer='git push origin'
+alias bilal="git reset --hard origin/master"
+alias pablo="git merge origin/master"
+alias valentin="codex"
+alias jean="htop"
+alias arda="echo arda."
+alias git-vache="git pull"
+alias donut-sucre-au-sucre="/home/gartaud/Documents/3d-donut/donut"
+
+bindkey -r "^J"
+
+#source $ZSH/oh-my-zsh.sh
+
+ENABLE_CORRECTION="true"
+
+
+# auto sofradef password
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 # pnpm
-export PNPM_HOME="/home/gregory/.local/share/pnpm"
+export PNPM_HOME="/home/gartaud/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+#source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+autoload -U +X bashcompinit && bashcompinit
+#complete -o nospace -C /usr/bin/terraform terraform
+export PATH="$HOME/.local/bin:$PATH"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# bun completions
+[ -s "/home/gartaud/.bun/_bun" ] && source "/home/gartaud/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
