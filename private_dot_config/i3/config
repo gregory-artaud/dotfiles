@@ -6,7 +6,7 @@ set $right l
 set $term alacritty
 set $menu $HOME/.scripts/launcher.sh
 set $explorer $term -e yazi
-set $browser google-chrome-stable
+set $browser zen-browser
 
 # i3-gaps (requires i3-gaps build)
 gaps inner 6

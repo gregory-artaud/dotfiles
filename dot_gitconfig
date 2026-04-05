@@ -1,6 +1,6 @@
 [user]
     name = Grégory
-    email = gregory@galadrim.fr
+    email = gregory@gra.sh
 
 [core]
     autocrlf = input
@@ -38,7 +38,7 @@
     oups = !"git add -A -v && git commit --amend -C HEAD"
 
 [github]
-    user = gregory-galadrim
+    user = gregory-artaud
 
 [rerere]
     enabled = true
