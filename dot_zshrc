@@ -48,29 +48,11 @@ gwtr() {
     done
 }
 
-
-alias marc='echo li'
-alias kevin='echo je suis trevis le nouveau locataire'
-alias gp-explorer='git push origin'
-alias bilal="git reset --hard origin/master"
-alias pablo="git merge origin/master"
-alias valentin="codex"
-alias jean="htop"
-alias arda="echo arda."
-alias git-vache="git pull"
-alias donut-sucre-au-sucre="/home/gartaud/Documents/3d-donut/donut"
-
 bindkey -r "^J"
 
 #source $ZSH/oh-my-zsh.sh
 
 ENABLE_CORRECTION="true"
-
-
-# auto sofradef password
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
-
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 # pnpm
 export PNPM_HOME="/home/gartaud/.local/share/pnpm"
