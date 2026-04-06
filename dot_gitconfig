@@ -1,6 +1,7 @@
 [user]
     name = Grégory
     email = gregory@gra.sh
+	signingkey = BB94F7AA20324EC7
 
 [core]
     autocrlf = input
@@ -58,3 +59,9 @@
     tool = meld
 [init]
 	defaultBranch = main
+[commit]
+	gpgsign = true
+[gpg]
+	program = gpg
+[tag]
+	gpgSign = true
