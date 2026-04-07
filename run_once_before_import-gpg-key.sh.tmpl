@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+KEY_ID="BB94F7AA20324EC7"
+SECRET_FILE="{{ .chezmoi.sourceDir }}/private_dot_gnupg/encrypted_private_key.asc.age"
+TRUST_FILE="{{ .chezmoi.sourceDir }}/private_dot_gnupg/encrypted_ownertrust.txt.age"
+if ! gpg --list-secret-keys --keyid-format LONG "$KEY_ID" >/dev/null 2>&1; then
+    mkdir -p "$HOME/.gnupg"
+    chmod 700 "$HOME/.gnupg"
+    chezmoi decrypt "$SECRET_FILE" | gpg --batch --import
+fi
+if [ -f "$TRUST_FILE" ]; then
+    chezmoi decrypt "$TRUST_FILE" | gpg --import-ownertrust
+fi
