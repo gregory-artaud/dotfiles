@@ -49,6 +49,7 @@ gwtr() {
 }
 
 bindkey -r "^J"
+bindkey '^H' backward-kill-word
 
 #source $ZSH/oh-my-zsh.sh
 
