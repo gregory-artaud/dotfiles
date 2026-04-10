@@ -1,23 +1,30 @@
 #!/usr/bin/env bash
 
 dir="$HOME/.config/polybar"
-themes=(`ls --hide="launch.sh" $dir`)
+themes=($(ls --hide="launch.sh" "$dir"))
 
 launch_bar() {
 	# Terminate already running bar instances
 	killall -q polybar
 
 	# Wait until the processes have been shut down
-	while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
+	while pgrep -u "$UID" -x polybar >/dev/null; do sleep 1; done
+
+	# Detect monitors
+	mapfile -t monitors < <(polybar --list-monitors | cut -d: -f1)
 
 	# Launch the bar
 	if [[ "$style" == "hack" || "$style" == "cuts" ]]; then
-		polybar -q top -c "$dir/$style/config.ini" &
-		polybar -q bottom -c "$dir/$style/config.ini" &
+		for m in "${monitors[@]}"; do
+			MONITOR="$m" polybar -q top -c "$dir/$style/config.ini" 2>>"/tmp/polybar_${style}_${m}_top.log" &
+			MONITOR="$m" polybar -q bottom -c "$dir/$style/config.ini" 2>>"/tmp/polybar_${style}_${m}_bottom.log" &
+		done
 	elif [[ "$style" == "pwidgets" ]]; then
 		bash "$dir"/pwidgets/launch.sh --main
 	else
-		polybar -q main -c "$dir/$style/config.ini" 2> /tmp/polybar_logs.log &	
+		for m in "${monitors[@]}"; do
+			MONITOR="$m" polybar -q main -c "$dir/$style/config.ini" 2>>"/tmp/polybar_${style}_${m}.log" &
+		done
 	fi
 }
 
