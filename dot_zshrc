@@ -11,6 +11,9 @@ if [[ -s "$NVM_DIR/nvm.sh" ]]; then
     source "$NVM_DIR/nvm.sh"
 fi
 export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR:-/run/user/$UID}/dotfiles-ssh-agent.socket"
+if [[ -t 0 ]]; then
+    export GPG_TTY=$(tty)
+fi
 export YAZI_IMAGE_BACKEND=ueberzugpp
 
 alias vim="nvim"
