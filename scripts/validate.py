@@ -103,6 +103,8 @@ def check_render(destination, encrypted):
         require(not (destination / name).exists(), f"Unwanted target: {name}")
     require(file(".agents/skills/code-review/SKILL.md"), "Shared skills missing")
     require(file(".codex/skills/frontend-design/SKILL.md"), "Personal skills missing")
+    for name in ["run_eval.py", "run_loop.py"]:
+        file(f".codex/skills/anthropic-skill-creator/scripts/{name}")
     run("ssh", "-G", "-F", str(file(".ssh/config")), "github.com")
     if encrypted:
         for name in [".ssh/id_github", ".ssh/id_home_lab", ".config/wg/wgHome.conf",
@@ -131,7 +133,7 @@ def main():
         common = ["chezmoi", "--source", str(REPO), "--destination", str(destination),
                   "--config", str(config), "--cache", str(root / "cache"),
                   "--persistent-state", str(root / "state.boltdb"), "--use-builtin-age=true"]
-        exclude = "scripts" if args.identity else "scripts,encrypted"
+        exclude = "" if args.identity else "encrypted"
         # A legacy file exercises the one explicitly declared removal.
         (destination / ".alacritty.toml").write_text("# obsolete duplicate\n")
         (destination / ".zshrc").write_text("# previous shell\n")
