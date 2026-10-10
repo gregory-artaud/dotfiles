@@ -1,0 +1,14 @@
+id = "launcher"
+name = "Application Launcher"
+description = "Searches and launches installed desktop applications"
+command = ["gisland-lua-host"]
+entry = "launcher.lua"
+config = "config.toml"
+
+[protocol]
+major = 1
+minimum_minor = 10
+maximum_minor = 10
+
+[options_schema.placeholder]
+type = "string"

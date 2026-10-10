@@ -1,7 +1,6 @@
 [user]
     name = Grégory
-    email = gregory@gra.sh
-	signingkey = BB94F7AA20324EC7
+    email = gregory@galadrim.fr
 
 [core]
     autocrlf = input
@@ -28,6 +27,7 @@
     new = green
 
 [alias]
+    kangou = checkout HEAD~10
 
     # show list of contributors in descending order by number of commits
     rank = shortlog -sn --no-merges
@@ -39,7 +39,7 @@
     oups = !"git add -A -v && git commit --amend -C HEAD"
 
 [github]
-    user = gregory-artaud
+    user = gregory-galadrim
 
 [rerere]
     enabled = true
@@ -59,9 +59,3 @@
     tool = meld
 [init]
 	defaultBranch = main
-[commit]
-	gpgsign = true
-[gpg]
-	program = gpg
-[tag]
-	gpgSign = true

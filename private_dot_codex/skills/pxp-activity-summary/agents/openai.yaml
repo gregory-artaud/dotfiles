@@ -1,0 +1,4 @@
+interface:
+  display_name: "Résumé d’activité PXP"
+  short_description: "Prépare les points d’activité pour un SR PXP"
+  default_prompt: "Utilise $pxp-activity-summary pour résumer mon activité PXP depuis une date donnée."

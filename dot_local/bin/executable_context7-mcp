@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+key_file="${XDG_CONFIG_HOME:-$HOME/.config}/dotfiles/context7-api-key"
+if [[ ! -s $key_file ]]; then
+    printf 'Context7: missing credential file %s\n' "$key_file" >&2
+    exit 1
+fi
+exec npx --yes @upstash/context7-mcp --api-key "$(<"$key_file")"

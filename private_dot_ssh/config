@@ -1,15 +1,18 @@
+Include config.d/*
+
+Host *
+    IdentityAgent /run/user/%i/dotfiles-ssh-agent.socket
+
 Host github.com
     User git
-    Hostname github.com
-    PreferredAuthentications publickey
-    IdentityFile /home/gartaud/.ssh/id_github
+    HostName github.com
+    IdentityFile ~/.ssh/id_github
+    IdentitiesOnly yes
+    AddKeysToAgent yes
+
 Host home_lab
     User gartaud
-    Hostname 192.168.1.134
-    PreferredAuthentications publickey
-    IdentityFile /home/gartaud/.ssh/id_home_lab
-Host home_zero
-    User gartaud
-    Hostname 192.168.1.151
-    PreferredAuthentications publickey
-    IdentityFile /home/gartaud/.ssh/id_home_zero
+    HostName 192.168.1.134
+    IdentityFile ~/.ssh/id_home_lab
+    IdentitiesOnly yes
+    AddKeysToAgent yes

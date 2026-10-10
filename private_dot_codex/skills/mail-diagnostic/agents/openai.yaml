@@ -1,0 +1,6 @@
+interface:
+  display_name: "Diagnostic de mail"
+  short_description: "Du mail brut au diagnostic et à la solution recommandée"
+  default_prompt: "Utilise $mail-diagnostic pour analyser cet extrait et recommander la solution la mieux étayée."
+policy:
+  allow_implicit_invocation: true

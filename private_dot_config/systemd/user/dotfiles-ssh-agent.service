@@ -1,0 +1,10 @@
+[Unit]
+Description=SSH agent for the laptop session
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/ssh-agent -D -a %t/dotfiles-ssh-agent.socket
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

@@ -1,12 +1,7 @@
-local ok, configs = pcall(require, 'nvim-treesitter.configs')
-if not ok then
-    return
-end
+require('nvim-treesitter').install({ 'javascript', 'typescript', 'tsx', 'html', 'css', 'markdown', 'markdown_inline' })
 
-configs.setup {
-    ensure_installed = { "javascript", "typescript", "tsx", "html", "css" }, -- Add other languages as needed
-    highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = false,
-    }
-}
+vim.api.nvim_create_autocmd('FileType', {
+    group = vim.api.nvim_create_augroup('gartaud-treesitter', { clear = true }),
+    pattern = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'html', 'css', 'markdown' },
+    callback = function(event) vim.treesitter.start(event.buf) end,
+})

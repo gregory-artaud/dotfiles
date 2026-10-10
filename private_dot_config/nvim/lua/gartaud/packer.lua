@@ -19,7 +19,8 @@ return require('packer').startup(function(use)
   use { 'nvim-telescope/telescope.nvim', tag = '0.1.x', requires = { { 'nvim-lua/plenary.nvim' } } }
   use 'folke/tokyonight.nvim'
   use 'tpope/vim-fugitive'
-  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  use 'f-person/git-blame.nvim'
+  use { 'nvim-treesitter/nvim-treesitter', branch = 'main', run = ':TSUpdate' }
 
   -- ❌ Désactiver sous VS Code (conflits / sans effet utile)
   if not IN_VSCODE then

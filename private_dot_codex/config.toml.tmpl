@@ -1,0 +1,12 @@
+model = "gpt-6.1-sol"
+model_reasoning_effort = "medium"
+personality = "pragmatic"
+service_tier = "default"
+web_search = "live"
+approvals_reviewer = "user"
+
+[tui]
+status_line = ["model-with-reasoning", "context-remaining", "current-dir", "five-hour-limit", "weekly-limit"]
+
+[mcp_servers.context7]
+command = "{{ .chezmoi.destDir }}/.local/bin/context7-mcp"

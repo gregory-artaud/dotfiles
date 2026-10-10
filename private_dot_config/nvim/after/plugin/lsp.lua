@@ -61,10 +61,13 @@ cmp.setup({
 
 local capabilities = cmp_lsp.default_capabilities()
 
-local function on_attach(_, bufnr)
-    local opts = { buffer = bufnr, remap = false }
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('gartaud-lsp-keymaps', { clear = true }),
+  callback = function(event)
+    local opts = { buffer = event.buf, remap = false }
 
     vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+    vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, opts)
     vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
     vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
     vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
@@ -74,11 +77,11 @@ local function on_attach(_, bufnr)
     vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
     vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
     vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
-end
+  end,
+})
 
 vim.lsp.config('*', {
     capabilities = capabilities,
-    on_attach = on_attach,
 })
 
 vim.diagnostic.config({

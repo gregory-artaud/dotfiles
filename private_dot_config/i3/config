@@ -4,37 +4,38 @@ set $down j
 set $up k
 set $right l
 set $term alacritty
-set $menu $HOME/.scripts/launcher.sh
+set $menu $HOME/.local/bin/gislandctl activate-open launcher
 set $explorer $term -e yazi
 set $browser zen-browser
 
 # i3-gaps (requires i3-gaps build)
-gaps inner 6
-gaps outer 3
+# gaps inner 6
+# gaps outer 3
 #corner_radius 5
-default_border pixel 2
-default_floating_border pixel 2
-font pango:JetBrainsMono NF 11
-#default_dim_inactive 0.2
+default_border pixel 0
+default_floating_border pixel 0
+font pango:Hack Nerd Font 11
+# default_dim_inactive 0.2
 focus_wrapping yes
 focus_follows_mouse no
 
 exec --no-startup-id autotiling
 exec --no-startup-id nm-applet
-exec --no-startup-id /usr/lib/xfce-polkit/xfce-polkit
-exec --no-startup-id dunst
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec_always --no-startup-id sh -c 'pgrep -x picom >/dev/null || picom --daemon --config ~/.config/picom/picom.conf'
+exec_always --no-startup-id ~/.scripts/start-gisland.sh
 exec_always --no-startup-id setxkbmap -option compose:rctrl
 exec_always --no-startup-id ~/.scripts/disable_mouse_accel.sh
-exec_always --no-startup-id ~/.config/polybar/launch.sh --shades
+exec_always --no-startup-id autorandr --change --default mobile
 
-exec --no-startup-id xrandr --output HDMI-A-0 --primary --auto --left-of eDP
 
 # Wallpaper (requires feh)
 exec_always --no-startup-id feh --bg-fill ~/.config/i3/wallpaper.png
 
-exec ~/.autostart.sh
 
 bindsym $mod+t exec $term
+bindsym $mod+Ctrl+l exec loginctl lock-session
 bindsym $mod+e exec $explorer
 bindsym $mod+w exec $browser
 bindsym $mod+q kill
@@ -44,9 +45,9 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'
 
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.local/bin/gislandctl action audio volume-up
+bindsym XF86AudioLowerVolume exec --no-startup-id ~/.local/bin/gislandctl action audio volume-down
+bindsym XF86AudioMute exec --no-startup-id ~/.local/bin/gislandctl action audio toggle-mute
 bindsym XF86MonBrightnessUp  exec brightnessctl set +5%
 bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
 bindsym XF86AudioPlay exec playerctl play-pause
@@ -56,11 +57,12 @@ bindsym XF86AudioPrev exec playerctl previous
 
 bindsym $mod+Shift+s exec ~/.scripts/SS.sh
 bindsym $mod+Shift+m exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
-bindsym $mod+p exec $HOME/.scripts/powermenu.sh
+bindsym $mod+m exec --no-startup-id ~/.local/bin/gislandctl action audio toggle-mute
+bindsym $mod+p exec --no-startup-id ~/.local/bin/gislandctl action power-menu toggle
 
 bindsym $mod+Alt+equal exec pactl set-source-volume @DEFAULT_SOURCE@ +5%
 bindsym $mod+Alt+minus exec pactl set-source-volume @DEFAULT_SOURCE@ -5%
-bindsym $mod+n exec dunstctl history-pop
+bindsym $mod+n exec --no-startup-id sh -c '~/.local/bin/gislandctl action notifications show-more && ~/.local/bin/gislandctl activate-open notifications'
 
 bindsym $mod+$left focus left
 bindsym $mod+$down focus down
@@ -96,7 +98,7 @@ bindsym $mod+Shift+0 move container to workspace number 10
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 
-bindsym $mod+b split h
+bindsym $mod+b exec --no-startup-id ~/.local/bin/gislandctl activate battery --duration 3s
 bindsym $mod+v split v
 
 bindsym $mod+f fullscreen toggle
@@ -133,6 +135,3 @@ for_window [window_type="dialog"] floating enable
 for_window [window_type="menu"] floating enable
 for_window [window_role="About"] floating enable
 for_window [title="File Operation Progress"] floating enable
-
-# Use Polybar (comment if you prefer i3bar)
-exec_always --no-startup-id ~/.config/polybar/launch.sh

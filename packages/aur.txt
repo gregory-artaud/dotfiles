@@ -1,0 +1,2 @@
+# Used only when zen-browser is unavailable in enabled repositories.
+zen-browser-bin

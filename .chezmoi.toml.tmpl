@@ -1,14 +1,10 @@
-{{- $bwsAccessToken := promptStringOnce . "bwsAccessToken" "BitWarden Secret access token" -}}
-
 encryption = "age"
+sourceDir = {{ .chezmoi.sourceDir | quote }}
 
 [git]
-autoCommit = true
-autoPush = true
-
-[data]
-bwsAccessToken = {{ $bwsAccessToken | quote }}
+autoCommit = false
+autoPush = false
 
 [age]
-identity = "~/.config/chezmoi/key.txt"
-recipient = "age1083m23669f4kurnuezq9h4365st8gvqmruunfyhkl55dcpw5ks4sw4dhc0" # Public key
+identity = {{ joinPath .chezmoi.homeDir ".config" "chezmoi" "key.txt" | quote }}
+recipient = "age1083m23669f4kurnuezq9h4365st8gvqmruunfyhkl55dcpw5ks4sw4dhc0"

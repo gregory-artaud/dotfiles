@@ -1,0 +1,86 @@
+{
+  "cli_default_open_behavior": "new_window",
+  "project_panel": {
+    "dock": "left"
+  },
+  "outline_panel": {
+    "dock": "left"
+  },
+  "collaboration_panel": {
+    "dock": "left"
+  },
+  "agent": {
+    "dock": "right",
+    "favorite_models": [],
+    "model_parameters": []
+  },
+  "git_panel": {
+    "dock": "left"
+  },
+  "session": {
+    "trust_all_worktrees": true
+  },
+  "lsp": {
+    "vtsls": {
+      "settings": {
+        "typescript": {
+          "updateImportsOnFileMove": {
+            "enabled": "always"
+          }
+        },
+        "javascript": {
+          "updateImportsOnFileMove": {
+            "enabled": "always"
+          }
+        }
+      },
+      "enable_lsp_tasks": true
+    }
+  },
+  "tab_bar": {
+    "show_tab_bar_buttons": true
+  },
+  "zoomed_padding": true,
+  "diagnostics": {
+    "inline": {
+      "enabled": true
+    }
+  },
+  "agent_servers": {
+    "codex-acp": {
+      "type": "registry",
+      "default_mode": "full-access"
+    }
+  },
+  "vim_mode": true,
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false
+  },
+  "base_keymap": "Cursor",
+  "vim": {
+    "use_system_clipboard": "never",
+    "toggle_relative_line_numbers": true
+  },
+  "relative_line_numbers": "enabled",
+  "gutter": {
+    "line_numbers": true
+  },
+  "minimap": {
+    "show": "never"
+  },
+  "file_types": {},
+  "icon_theme": "Catppuccin Mocha",
+  "ui_font_size": 16,
+  "buffer_font_size": 15,
+  "theme": {
+    "mode": "dark",
+    "light": "One Light",
+    "dark": "Tokyo Night"
+  },
+  "code_actions_on_format": {
+    "source.organizeImports": true
+  },
+  "buffer_font_family": "Hack Nerd Font",
+  "ui_font_family": "Hack Nerd Font"
+}

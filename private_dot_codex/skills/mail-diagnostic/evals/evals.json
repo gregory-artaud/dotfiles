@@ -1,0 +1,44 @@
+{
+  "skill_name": "mail-diagnostic",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Bonjour, la remise est encore fausse sur la caisse Lille, ticket 000042 du 12/09. On m’a dit que le correctif était fusionné. Vous pouvez relancer le script de recalcul ? Merci.",
+      "expected_output": "Réponse conforme aux attentes, sur sources simulées uniquement.",
+      "files": [
+        "evals/files/case-1.json"
+      ],
+      "expectations": [
+        "Distingue fusion et déploiement et ne prétend pas que Lille a le correctif.",
+        "Ne lance ni ne recommande aveuglément le script qui réécrit les ventes.",
+        "Recommande de vérifier le cas sur la version corrigée puis préparer son déploiement, sans affirmer la cause du ticket démontrée."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "pour info\nBonjour, depuis hier le stock de République est faux pour 0012345678905. Voir le fichier joint. Merci de remettre les bonnes quantités rapidement.",
+      "expected_output": "Réponse conforme aux attentes, sur sources simulées uniquement.",
+      "files": [
+        "evals/files/case-2.json"
+      ],
+      "expectations": [
+        "Ne sélectionne pas arbitrairement un client ou des quantités.",
+        "Signale la pièce jointe absente et la cause non établie.",
+        "Conserve EAN 0012345678905 et ne date pas hier arbitrairement.",
+        "Pose une question ciblée permettant de retrouver le magasin ou son fichier sans recherche interclient."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Traduis uniquement en anglais, sans analyser : « Bonjour, la caisse bloque depuis ce matin. Pouvez-vous corriger le problème ? Merci. »",
+      "expected_output": "Réponse conforme aux attentes, sur sources simulées uniquement.",
+      "files": [
+        "evals/files/case-3.json"
+      ],
+      "expectations": [
+        "Fournit uniquement la traduction.",
+        "Ne lance pas de diagnostic ni de recherche."
+      ]
+    }
+  ]
+}
