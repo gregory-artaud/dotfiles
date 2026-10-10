@@ -2,7 +2,7 @@
 
 Configuration personnelle gérée par [Chezmoi](https://www.chezmoi.io/), préparée
 à partir du home de l’ancien laptop et des choix validés le 10 octobre 2026.
-Branche de préparation : `laptop-cachyos-i3`.
+Branche de référence : `main` (préparation effectuée sur `laptop-cachyos-i3`).
 
 ## Configuration retenue
 
@@ -84,9 +84,16 @@ Exécuter cette section **sur le laptop**, sous ton utilisateur, après installa
 de CachyOS avec i3. Les chemins supposent les répertoires XDG par défaut.
 Aucune installation n’est déclenchée par un clone ou un simple `chezmoi apply`.
 
-Transférer d’abord la branche préparée : elle n’est pas publiée sur GitHub.
-Un bundle Git autonome est fourni : `dotfiles-laptop-20261010.bundle`. Après avoir
-copié ce fichier sur le laptop, il permet de cloner la branche sans publication :
+Cloner la configuration de référence :
+
+```sh
+git clone --branch main https://github.com/gregory-artaud/dotfiles.git "$HOME/.local/share/chezmoi"
+cd "$HOME/.local/share/chezmoi"
+```
+
+Un bundle Git autonome de préparation est également fourni :
+`dotfiles-laptop-20261010.bundle`. Après avoir copié ce fichier sur le laptop,
+il permet de retrouver la branche préparée sans accès à GitHub :
 
 ```sh
 git clone --branch laptop-cachyos-i3 /chemin/dotfiles-laptop-20261010.bundle "$HOME/.local/share/chezmoi"
@@ -95,8 +102,7 @@ git remote set-url origin git@github.com:gregory-artaud/dotfiles.git
 ```
 
 Si `~/.local/share/chezmoi` existe déjà, choisir un autre répertoire vide pour le
-clone. `init` mémorise cet emplacement. Après publication, un clone HTTPS de la
-branche conviendra aussi. Garder cette copie à son emplacement tant qu’elle sert
+clone. `init` mémorise cet emplacement. Garder cette copie à son emplacement tant qu’elle sert
 de source Chezmoi.
 
 Puis lancer les étapes séparément :
@@ -142,7 +148,7 @@ Puis lancer les étapes séparément :
 Après `init`, Chezmoi pointe vers cette copie de travail. Les commandes habituelles
 `chezmoi status` et `chezmoi apply` peuvent ensuite servir. Les commits et pushes
 automatiques sont désactivés.
-Attendre la publication de cette branche avant d’utiliser `chezmoi update`.
+Utiliser la branche `main` pour recevoir les mises à jour avec `chezmoi update`.
 
 Fermer la session et se reconnecter sous i3, puis :
 
