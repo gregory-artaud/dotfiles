@@ -128,7 +128,10 @@ Puis lancer les étapes séparément :
   `~/.alacritty.toml` est supprimé au profit de `~/.config/alacritty/alacritty.toml`.
   Chezmoi peut demander confirmation pour les fichiers modifiés localement.
 - `gisland` compile avec deux jobs par défaut, installe sous `~/.local` et ne
-  démarre pas le service. Ajuster `DOTFILES_BUILD_JOBS` si souhaité.
+  démarre pas le service. Lancer cette étape depuis un terminal de la session
+  graphique : le contrôle des dépendances GTK doit pouvoir ouvrir l’affichage.
+  Par SSH, transmettre les valeurs `DISPLAY` et `XAUTHORITY` de cette session.
+  Ajuster `DOTFILES_BUILD_JOBS` si souhaité.
 - `services` active l’agent SSH, Gisland, NetworkManager et Docker, ajoute
   l’utilisateur au groupe Docker, choisit Zsh comme shell et Zen comme navigateur.
   Gisland démarre à l’ouverture d’i3, après import des variables X11. Dunst est
