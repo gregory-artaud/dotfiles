@@ -16,7 +16,9 @@ target_only() {
     source /etc/os-release
     [[ ${ID:-} == cachyos ]] || die 'Les étapes d’installation sont réservées à CachyOS.'
 }
-cm() { chezmoi --source "$repo_dir" --config "$config_file" "$@"; }
+# Chezmoi must see the same mask as ordinary interactive invocations. Secret
+# targets use private_ attributes; backups and the age identity stay private.
+cm() { (umask 022; chezmoi --source "$repo_dir" --config "$config_file" "$@"); }
 package_list() { sed -e 's/#.*//' -e '/^[[:space:]]*$/d' "$1"; }
 
 install_packages() {
