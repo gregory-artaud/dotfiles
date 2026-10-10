@@ -5,7 +5,7 @@ umask 077
 
 repo_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 config_file="${XDG_CONFIG_HOME:-$HOME/.config}/chezmoi/chezmoi.toml"
-identity_file="${XDG_CONFIG_HOME:-$HOME/.config}/chezmoi/key.txt"
+gpg_encryption_key="33B7FE0092C24031AF1EEE24DBD5BD856A579F63"
 
 die() { printf '%s\n' "$*" >&2; exit 1; }
 need() { command -v "$1" >/dev/null || die "Commande manquante : $1"; }
@@ -17,8 +17,17 @@ target_only() {
     [[ ${ID:-} == cachyos ]] || die 'Les étapes d’installation sont réservées à CachyOS.'
 }
 # Chezmoi must see the same mask as ordinary interactive invocations. Secret
-# targets use private_ attributes; backups and the age identity stay private.
+# targets use private_ attributes; backups stay private.
 cm() { (umask 022; chezmoi --source "$repo_dir" --config "$config_file" "$@"); }
+require_gpg_key() {
+    need gpg
+    gpg --batch --with-colons --list-secret-keys "$gpg_encryption_key" 2>/dev/null | \
+        awk -F: -v key="$gpg_encryption_key" '
+            $1 == "ssb" { available = ($15 == "+") }
+            $1 == "fpr" && $10 == key && available { found = 1 }
+            END { exit !found }
+        ' || die 'Importer la sous-clé privée GPG de chiffrement du serveur avant init/apply.'
+}
 package_list() { sed -e 's/#.*//' -e '/^[[:space:]]*$/d' "$1"; }
 
 install_packages() {
@@ -68,21 +77,10 @@ install_runtime() {
 init_config() {
     target_only
     need chezmoi
+    require_gpg_key
     mkdir -p -- "$(dirname -- "$config_file")"
     # Init writes only the chezmoi configuration, without applying dotfiles.
     cm init
-    if [[ ! -s $identity_file ]]; then
-        need age
-        local temporary_identity
-        temporary_identity=$(mktemp "$(dirname -- "$identity_file")/.age-key.XXXXXX")
-        if age --decrypt --output "$temporary_identity" "$repo_dir/key.txt.age"; then
-            chmod 600 "$temporary_identity"
-            mv -- "$temporary_identity" "$identity_file"
-        else
-            rm -f -- "$temporary_identity"
-            die 'Déchiffrement de la clé age échoué ; aucun dotfile appliqué.'
-        fi
-    fi
     printf 'Configuration Chezmoi initialisée ; aucun dotfile appliqué.\n'
 }
 
@@ -115,7 +113,7 @@ install_gisland() {
 
 apply_config() {
     target_only
-    [[ -s $identity_file ]] || die 'Lancer init avant apply pour restaurer la clé age.'
+    require_gpg_key
     # Back up exactly the managed paths that already exist, including removals.
     python3 "$repo_dir/scripts/backup.py" "$repo_dir" "$config_file"
     cm apply
@@ -178,7 +176,7 @@ case ${1:-help} in
             'Étapes sur le laptop CachyOS, dans cet ordre :' \
             '  packages  Installer les paquets et Zen' \
             '  runtime   Installer NVM, la dernière LTS Node, pnpm et Codex' \
-            '  init      Initialiser Chezmoi et déchiffrer la clé age (phrase secrète)' \
+            '  init      Initialiser Chezmoi après import de la sous-clé privée GPG' \
             '  preview   Voir les changements sans les appliquer (secrets exclus)' \
             '  apply     Sauvegarder puis appliquer les dotfiles' \
             '  gisland   Construire et installer la version Gisland conservée' \

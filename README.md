@@ -18,8 +18,8 @@ Branche de référence : `main` (préparation effectuée sur `laptop-cachyos-i3`
 | Développement | NVM, dernière LTS de Node à l’installation, pnpm, Docker/Compose, DBeaver |
 | Réseau | WireGuard vers le domicile |
 | Codex | Préférences, barre d’état, instructions et skills de l’ancien laptop ; Context7 uniquement |
-| SSH | `id_github` et `id_home_lab`, chiffrées avec age dans ce dépôt |
-| GPG | Import depuis le serveur, effectué séparément |
+| SSH | `id_github` et `id_home_lab`, chiffrées avec GPG dans ce dépôt |
+| GPG | Sous-clés du serveur importées séparément ; `[E]` déchiffre les dotfiles |
 
 Sur CachyOS, la commande `i3lock` est fournie par le paquet `i3lock-color`, requis
 par `cachyos-i3wm-settings`. Le paquet concurrent `i3lock` n’est pas installé.
@@ -62,16 +62,18 @@ Gisland reste sur `Mod+p`.
 python3 scripts/validate.py
 ```
 
-Outils requis : Python 3.11+, Chezmoi, Bash, Zsh, i3, Lua/luac et OpenSSH.
+Outils requis : Python 3.11+, Chezmoi, GnuPG, Bash, Zsh, i3, Lua/luac et OpenSSH.
 Le contrôle rend les fichiers dans un home temporaire privé, vérifie les syntaxes
 et les choix de migration, puis teste une seconde application. Il ne lance aucun
-hook ni service et exclut les fichiers chiffrés sans identité age fournie.
+hook ni service et exclut les fichiers chiffrés par défaut.
 
 Pour tester également le déchiffrement, sans afficher les secrets :
 
 ```sh
-python3 scripts/validate.py --identity /chemin/vers/key.txt
+python3 scripts/validate.py --decrypt-secrets
 ```
+
+Ce contrôle utilise le trousseau GPG courant et peut demander la phrase secrète.
 
 Ces deux contrôles ont réussi pendant la préparation. La reconstruction Gisland
 avec la base publique et le patch a produit exactement l’arbre Git attendu.
@@ -91,19 +93,16 @@ git clone --branch main https://github.com/gregory-artaud/dotfiles.git "$HOME/.l
 cd "$HOME/.local/share/chezmoi"
 ```
 
-Un bundle Git autonome de préparation est également fourni :
-`dotfiles-laptop-20261010.bundle`. Après avoir copié ce fichier sur le laptop,
-il permet de retrouver la branche préparée sans accès à GitHub :
-
-```sh
-git clone --branch laptop-cachyos-i3 /chemin/dotfiles-laptop-20261010.bundle "$HOME/.local/share/chezmoi"
-cd "$HOME/.local/share/chezmoi"
-git remote set-url origin git@github.com:gregory-artaud/dotfiles.git
-```
-
 Si `~/.local/share/chezmoi` existe déjà, choisir un autre répertoire vide pour le
 clone. `init` mémorise cet emplacement. Garder cette copie à son emplacement tant qu’elle sert
 de source Chezmoi.
+
+Importer d’abord les sous-clés GPG du serveur (voir la section de transfert
+ci-dessous). La sous-clé privée de chiffrement
+`33B7FE0092C24031AF1EEE24DBD5BD856A579F63` doit être utilisable : une ligne
+`ssb#` ne suffit pas. Elle n’est pas stockée dans ce dépôt. Le chiffrement des
+dotfiles utilise sa clé publique, et le déchiffrement passe par GPG et son agent.
+La clé principale peut rester hors ligne (`sec#`).
 
 Puis lancer les étapes séparément :
 
@@ -125,8 +124,9 @@ Puis lancer les étapes séparément :
 - `runtime` installe NVM si absent (`v0.40.8`), la dernière LTS, puis pnpm et Codex
   via npm. Aucun ancien runtime ni paquet global n’est copié. Si NVM était déjà
   utilisé, les versions restantes sont affichées plutôt que supprimées.
-- `init` écrit la configuration Chezmoi et demande la phrase secrète de
-  `key.txt.age` si l’identité manque. Aucun dotfile n’est appliqué.
+- `init` vérifie la présence de la sous-clé privée GPG de chiffrement, puis écrit
+  la configuration Chezmoi. Aucun dotfile n’est appliqué. GPG peut demander la
+  phrase secrète lors de l’application ou de l’édition d’un fichier chiffré.
 - `preview` montre les changements sans les écrire et exclut les contenus
   chiffrés pour éviter d’afficher les secrets dans le terminal.
 - `apply` sauvegarde les fichiers existants concernés dans une archive privée
@@ -203,6 +203,8 @@ Transférer le fichier chiffré vers le laptop par SSH, puis sur le laptop :
 gpg --list-secret-keys --keyid-format LONG
 ```
 
+Exécuter l’export dans un terminal du serveur et l’import dans un terminal du
+laptop, avec `export GPG_TTY=$(tty)` pour permettre les invites de saisie.
 GPG demande les phrases secrètes nécessaires. Les fichiers temporaires sont
 nettoyés ; les clés privées ne sont jamais écrites sur la sortie du terminal.
 Le fichier de transfert n’a pas vocation à être ajouté au dépôt.
@@ -210,6 +212,6 @@ Le fichier de transfert n’a pas vocation à être ajouté au dépôt.
 ## Références
 
 - [NVM : installation, versions et LTS](https://github.com/nvm-sh/nvm)
-- [Chezmoi : chiffrement](https://www.chezmoi.io/user-guide/frequently-asked-questions/encryption/)
+- [Chezmoi : chiffrement GPG](https://www.chezmoi.io/user-guide/encryption/gpg/)
 - [xss-lock : verrouillage et veille](https://man.archlinux.org/man/xss-lock.1.en)
 - [Hack Nerd Font : fichiers Arch](https://archlinux.org/packages/extra/any/ttf-hack-nerd/files/)

@@ -1,6 +1,5 @@
 # Desktop and shell
 chezmoi
-age
 git
 curl
 jq

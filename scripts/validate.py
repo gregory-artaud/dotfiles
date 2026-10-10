@@ -36,6 +36,12 @@ def check_source():
     run("bash", "-n", str(REPO / "scripts/gpg-transfer.sh"))
     for path in (REPO / "scripts").glob("*.py"):
         compile(path.read_text(), str(path), "exec")
+    require(not list(REPO.rglob("*.age")), "Legacy age ciphertext remains")
+    ciphertexts = list(REPO.rglob("encrypted_*.asc"))
+    require(len(ciphertexts) == 4, "Unexpected encrypted target count")
+    for path in ciphertexts:
+        require(path.read_text().startswith("-----BEGIN PGP MESSAGE-----"),
+                f"Invalid GPG ciphertext: {path.relative_to(REPO)}")
     for manifest in (REPO / "packages").glob("*.txt"):
         names = [line.split("#")[0].strip() for line in manifest.read_text().splitlines()]
         names = [name for name in names if name]
@@ -44,7 +50,7 @@ def check_source():
     signatures = [r"ctx7sk-[A-Za-z0-9-]{20,}", r"gh[pousr]_[A-Za-z0-9]{30,}",
                   r"github_pat_[A-Za-z0-9_]{30,}", r"-----BEGIN (?:OPENSSH |RSA |EC )?PRIVATE KEY-----"]
     for path in REPO.rglob("*"):
-        if not path.is_file() or ".git" in path.parts or path.suffix == ".age":
+        if not path.is_file() or ".git" in path.parts or path in ciphertexts:
             continue
         try:
             text = path.read_text()
@@ -120,7 +126,7 @@ def check_render(destination, encrypted):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--identity", type=Path, help="Optional age identity; encrypted targets stay in the temporary home")
+    parser.add_argument("--decrypt-secrets", action="store_true", help="Test GPG decryption with the current keyring; secret targets stay in the temporary home")
     args = parser.parse_args()
     check_source()
     with tempfile.TemporaryDirectory(prefix="dotfiles-validation-") as directory:
@@ -128,12 +134,11 @@ def main():
         destination = root / "home"
         destination.mkdir(mode=0o700)
         config = root / "config.toml"
-        identity = args.identity.resolve() if args.identity else root / "unused-identity"
-        config.write_text('encryption = "age"\n[age]\nidentity = ' + json.dumps(str(identity)) + '\n')
+        config.write_text('encryption = "gpg"\n[gpg]\nrecipient = "33B7FE0092C24031AF1EEE24DBD5BD856A579F63!"\nargs = ["--quiet"]\n')
         common = ["chezmoi", "--source", str(REPO), "--destination", str(destination),
                   "--config", str(config), "--cache", str(root / "cache"),
-                  "--persistent-state", str(root / "state.boltdb"), "--use-builtin-age=true"]
-        exclude = "" if args.identity else "encrypted"
+                  "--persistent-state", str(root / "state.boltdb")]
+        exclude = "" if args.decrypt_secrets else "encrypted"
         # A legacy file exercises the one explicitly declared removal.
         (destination / ".alacritty.toml").write_text("# obsolete duplicate\n")
         (destination / ".zshrc").write_text("# previous shell\n")
@@ -146,7 +151,7 @@ def main():
             require(archive.extractfile(".zshrc").read() == b"# previous shell\n", "Backup lost original contents")
         print("PASS: pre-apply backup saves existing targets and removed file with private permissions")
         run(*common, "apply", "--force", "--exclude", exclude)
-        check_render(destination, bool(args.identity))
+        check_render(destination, args.decrypt_secrets)
         # Second application must be idempotent, including symlinks and removals.
         run(*common, "apply", "--force", "--exclude", exclude)
         status = run(*common, "status", "--exclude", exclude)

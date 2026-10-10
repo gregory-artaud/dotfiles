@@ -1,10 +1,10 @@
-encryption = "age"
+encryption = "gpg"
 sourceDir = {{ .chezmoi.sourceDir | quote }}
 
 [git]
 autoCommit = false
 autoPush = false
 
-[age]
-identity = {{ joinPath .chezmoi.homeDir ".config" "chezmoi" "key.txt" | quote }}
-recipient = "age1083m23669f4kurnuezq9h4365st8gvqmruunfyhkl55dcpw5ks4sw4dhc0"
+[gpg]
+recipient = "33B7FE0092C24031AF1EEE24DBD5BD856A579F63!"
+args = ["--quiet"]
