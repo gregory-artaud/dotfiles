@@ -12,7 +12,8 @@ zsh-theme-powerlevel10k
 alacritty
 ttf-hack-nerd
 i3-wm
-i3lock
+# CachyOS i3 settings require this variant; it provides the i3lock command.
+i3lock-color
 xss-lock
 xorg-xset
 picom

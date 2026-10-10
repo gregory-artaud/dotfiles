@@ -21,6 +21,9 @@ Branche de préparation : `laptop-cachyos-i3`.
 | SSH | `id_github` et `id_home_lab`, chiffrées avec age dans ce dépôt |
 | GPG | Import depuis le serveur, effectué séparément |
 
+Sur CachyOS, la commande `i3lock` est fournie par le paquet `i3lock-color`, requis
+par `cachyos-i3wm-settings`. Le paquet concurrent `i3lock` n’est pas installé.
+
 Écartés : module Tesserish et son raccourci, Polybar, Rofi, Sway, Waybar, swaync,
 Hyprlock, Cursor, OpenCode et son raccourci, anciens Node, Bun, Yarn, Go, Rust,
 Terraform, anciens navigateurs, NetBird, Slack, RustDesk et FileZilla.
