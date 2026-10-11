@@ -4,6 +4,34 @@ Configuration personnelle gérée par [Chezmoi](https://www.chezmoi.io/), prépa
 à partir du home de l’ancien laptop et des choix validés le 10 octobre 2026.
 Branche de référence : `main` (préparation effectuée sur `laptop-cachyos-i3`).
 
+## Repartir après un wipe
+
+Ce README est le guide de réinstallation ; il ne nécessite pas l’historique de
+la conversation de préparation. Suivre [l’installation](#installer-sur-le-nouveau-laptop),
+puis les [vérifications sur le matériel](#finaliser-sur-le-matériel-réel).
+
+Avant d’effacer le laptop, conserver hors de celui-ci :
+
+- Un accès au dépôt GitHub et une copie récupérable des sous-clés privées GPG
+  du serveur, avec leurs phrases secrètes. La sous-clé `[E]` est indispensable
+  pour déchiffrer le dépôt ; la clé publique et la sous-clé `[S]` seules ne
+  suffisent pas. Le serveur peut fournir l’export décrit plus bas.
+- Les documents, projets non publiés, profils et données du navigateur, données
+  Docker, connexions DBeaver et autres données personnelles à restaurer.
+- Les modifications locales de configuration que l’on souhaite conserver :
+  les intégrer au dépôt et les pousser avant le wipe. Les commits et pushes
+  Chezmoi ne sont pas automatiques.
+
+Le dépôt reconstruit la configuration versionnée, pas une image complète du
+disque. Les paquets et la LTS Node sont installés dans leur version disponible
+au moment de la réinstallation. Les connexions aux comptes, plugins des
+éditeurs et profils d’écran restent à finaliser. Aucune clé age n’est nécessaire
+pour restaurer `main` : les fichiers sensibles sont chiffrés avec GPG.
+
+Le parcours utilise `scripts/setup.sh` pour les paquets, runtimes, la compilation
+de Gisland et les services ; Chezmoi gère les fichiers de configuration. Un
+simple `chezmoi init --apply` ne réalise pas toute l’installation.
+
 ## Configuration retenue
 
 | Domaine | Conservé |
@@ -94,8 +122,17 @@ cd "$HOME/.local/share/chezmoi"
 ```
 
 Si `~/.local/share/chezmoi` existe déjà, choisir un autre répertoire vide pour le
-clone. `init` mémorise cet emplacement. Garder cette copie à son emplacement tant qu’elle sert
-de source Chezmoi.
+clone. `init` mémorise cet emplacement. Garder cette copie à son emplacement
+tant qu’elle sert de source Chezmoi.
+
+Installer d’abord les paquets, dont GnuPG et Chezmoi :
+
+```sh
+./scripts/setup.sh packages
+```
+
+Si la mise à jour remplace le noyau, redémarrer avant de poursuivre, puis rouvrir
+un terminal sous i3 et revenir dans `~/.local/share/chezmoi`.
 
 Importer d’abord les sous-clés GPG du serveur (voir la section de transfert
 ci-dessous). La sous-clé privée de chiffrement
@@ -107,7 +144,6 @@ La clé principale peut rester hors ligne (`sec#`).
 Puis lancer les étapes séparément :
 
 ```sh
-./scripts/setup.sh packages
 ./scripts/setup.sh runtime
 ./scripts/setup.sh init
 ./scripts/setup.sh preview
@@ -193,21 +229,62 @@ confiance. Rien n’est exporté pendant `chezmoi apply`.
 Sur le serveur, depuis cette copie du dépôt :
 
 ```sh
+export GPG_TTY=$(tty)
 ./scripts/gpg-transfer.sh export /chemin/prive/cles-serveur.tar.gpg
 ```
 
-Transférer le fichier chiffré vers le laptop par SSH, puis sur le laptop :
+Choisir un chemin de sortie accessible et encore inexistant. Conserver la
+phrase secrète choisie pour cet export : elle sera demandée à l’import, en plus
+des éventuelles phrases secrètes des clés.
+
+Transférer ce fichier chiffré vers le laptop par SSH ou support externe, puis
+dans un terminal du laptop, depuis le dépôt cloné :
 
 ```sh
+export GPG_TTY=$(tty)
 ./scripts/gpg-transfer.sh import /chemin/prive/cles-serveur.tar.gpg
 gpg --list-secret-keys --keyid-format LONG
 ```
+
+Vérifier les empreintes et la disponibilité des parties privées :
+
+| Usage | Empreinte attendue | Résultat attendu |
+| --- | --- | --- |
+| Chiffrement `[E]` | `33B7FE0092C24031AF1EEE24DBD5BD856A579F63` | `ssb`, sans `#` |
+| Signature `[S]` | `47C58477AD697C349F1EA837D0AEC279C43A2596` | `ssb`, sans `#` |
+| Clé principale | `C92B44E79F1504FA4D8053D2BB94F7AA20324EC7` | `sec#` est attendu si elle reste hors ligne |
+
+```sh
+gpg --list-secret-keys --with-subkey-fingerprint
+```
+
+L’outil importe aussi les niveaux de confiance, nécessaires au rechiffrement
+des fichiers avec la clé personnelle. Le test complet, après installation des
+paquets, est `python3 scripts/validate.py --decrypt-secrets`.
 
 Exécuter l’export dans un terminal du serveur et l’import dans un terminal du
 laptop, avec `export GPG_TTY=$(tty)` pour permettre les invites de saisie.
 GPG demande les phrases secrètes nécessaires. Les fichiers temporaires sont
 nettoyés ; les clés privées ne sont jamais écrites sur la sortie du terminal.
 Le fichier de transfert n’a pas vocation à être ajouté au dépôt.
+
+## Problèmes rencontrés pendant l’installation
+
+- **Docker échoue après une mise à jour du noyau** : comparer `uname -r` et
+  les répertoires de `/usr/lib/modules`. Le noyau encore actif peut ne plus
+  disposer de ses modules réseau. Redémarrer sur le nouveau noyau, puis lancer
+  `sudo systemctl reset-failed docker.service docker.socket` et reprendre
+  `./scripts/setup.sh services`.
+- **GPG : `Inappropriate ioctl for device` ou `No pinentry`** : exécuter
+  l’export/import dans un terminal de la machine concernée avec
+  `export GPG_TTY=$(tty)`. Une commande d’import via SSH sans terminal ne permet
+  pas forcément la saisie. Ne pas transmettre de phrase secrète dans le chat.
+- **Sous-clé `[E]` en `ssb#`** : sa partie privée n’est pas utilisable ; le
+  transfert n’est pas terminé, même si les empreintes publiques correspondent.
+- **Gisland : `gtk_init_check() failed`** : compiler depuis la session graphique
+  i3. Par SSH, utiliser les valeurs `DISPLAY` et `XAUTHORITY` de cette session.
+- **Conflit i3lock** : conserver le paquet `i3lock-color`, requis par les
+  réglages CachyOS. Il fournit la commande `i3lock` utilisée par la configuration.
 
 ## Références
 
