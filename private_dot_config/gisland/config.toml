@@ -5,6 +5,7 @@ compact = "clock"
 expanded = "clock"
 
 [interaction]
+hidden_mode = true
 animation_speed = 1.25
 hover_exit_ms = 120
 
