@@ -1,4 +1,3 @@
-# Preserve archived upstream sources and the exact binary Git patch.
+# Preserve archived skill sources.
 dot_agents/skills/** -whitespace
 private_dot_codex/skills/** -whitespace
-vendor/*.patch -whitespace

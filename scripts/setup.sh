@@ -95,8 +95,7 @@ install_gisland() {
         mkdir -p -- "$(dirname -- "$source_dir")"
         # Public HTTPS works before the SSH keys have been restored.
         git clone --no-checkout https://github.com/gregory-artaud/gisland.git "$source_dir"
-        git -C "$source_dir" checkout --detach "$GISLAND_BASE"
-        git -C "$source_dir" apply --index "$repo_dir/vendor/gisland.patch"
+        git -C "$source_dir" checkout --detach "$GISLAND_REVISION"
     fi
     [[ $(git -C "$source_dir" write-tree) == "$GISLAND_TREE" ]] || \
         die "Sources Gisland inattendues dans $source_dir ; vérifier ce checkout."

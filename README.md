@@ -71,14 +71,13 @@ GitHub et la copie Chezmoi archivée avaient le même commit de base, `96ef79a`.
 Les configurations ont été reprises depuis les fichiers effectivement utilisés
 dans le home archivé. L’archive reste intacte.
 
-Les fonctionnalités Gisland utilisées étaient en avance sur `main`.
-`vendor/gisland.patch` conserve la différence entre la révision publique
-`c96f7b2` et la révision locale `8669903` (`codex/hidden-mode`, intégration du menu
-d’alimentation). `vendor/gisland.env` fixe les révisions et l’arbre Git attendu.
-Le script reconstitue et vérifie cet arbre avant compilation. Les binaires et
-modules distribués viennent de ces sources ; les modules et thèmes personnels
-restent gérés par Chezmoi. Le patch pourra être retiré quand cette version sera
-publiée en amont.
+Gisland est épinglé à la révision publique `4a331a8` : elle inclut le menu
+d’alimentation, le masquage au repos et les corrections des notifications
+pendant le masquage et de la visibilité sur tous les espaces i3 après remappage.
+`vendor/gisland.env` fixe la révision et l’arbre Git attendu, vérifié avant
+compilation. L’ancien patch local a été retiré : ses fonctionnalités sont
+désormais publiées en amont. Les binaires et modules distribués viennent de ces
+sources ; les modules et thèmes personnels restent gérés par Chezmoi.
 
 Les profils autorandr de l’ancien matériel et la commande xrandr avec `HDMI-A-0`
 ne sont pas repris. `Mod+Ctrl+l` verrouille la session ; le menu d’alimentation
@@ -103,8 +102,8 @@ python3 scripts/validate.py --decrypt-secrets
 
 Ce contrôle utilise le trousseau GPG courant et peut demander la phrase secrète.
 
-Ces deux contrôles ont réussi pendant la préparation. La reconstruction Gisland
-avec la base publique et le patch a produit exactement l’arbre Git attendu.
+Ces deux contrôles ont réussi pendant la préparation. Le checkout Gisland
+public est vérifié contre l’arbre Git attendu avant compilation.
 La compilation complète de Gisland et le comportement graphique n’ont pas été
 testés sur ce serveur.
 
@@ -174,6 +173,9 @@ Puis lancer les étapes séparément :
   graphique : le contrôle des dépendances GTK doit pouvoir ouvrir l’affichage.
   Par SSH, transmettre les valeurs `DISPLAY` et `XAUTHORITY` de cette session.
   Ajuster `DOTFILES_BUILD_JOBS` si souhaité.
+  Pour une mise à jour d’une instance déjà lancée, arrêter le service avant
+  l’installation (`systemctl --user stop gisland.service`), puis le relancer
+  après réussite avec `~/.scripts/start-gisland.sh`.
 - `services` active l’agent SSH, Gisland, NetworkManager et Docker, ajoute
   l’utilisateur au groupe Docker, choisit Zsh comme shell et Zen comme navigateur.
   Gisland démarre à l’ouverture d’i3, après import des variables X11. Dunst est
