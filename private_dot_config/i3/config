@@ -59,6 +59,7 @@ bindsym $mod+Shift+s exec ~/.scripts/SS.sh
 bindsym $mod+Shift+m exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
 bindsym $mod+m exec --no-startup-id ~/.local/bin/gislandctl action audio toggle-mute
 bindsym $mod+p exec --no-startup-id ~/.local/bin/gislandctl action power-menu toggle
+bindsym $mod+c exec --no-startup-id ~/.local/bin/gislandctl activate-open clock
 
 bindsym $mod+Alt+equal exec pactl set-source-volume @DEFAULT_SOURCE@ +5%
 bindsym $mod+Alt+minus exec pactl set-source-volume @DEFAULT_SOURCE@ -5%
